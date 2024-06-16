@@ -123,7 +123,7 @@ if (selected == '📖 Heart Disease Calculator'):
                 heart_prediction = heart_disease_model.predict([[int(age), int(sex), cp_numeric, int(trestbps), int(chol), fbs_numeric, restecg_numeric, int(thalach), exang_numeric, float(oldpeak), slope_numeric, ca_numeric, thal_numeric]])    
 
                 with st.spinner('Wait for it...'):
-                    time.sleep(3)                     
+                    time.sleep(2)                     
             
                 if (heart_prediction[0] == 1):
                     heart_diagnosis = 'The person is having heart disease'
