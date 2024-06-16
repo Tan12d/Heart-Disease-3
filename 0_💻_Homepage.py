@@ -11,7 +11,7 @@ from streamlit_extras.chart_annotations import get_annotations_chart
 import altair as alt
 import numpy as np
 from streamlit_extras.chart_container import chart_container
-
+import time
 
 
 
@@ -102,26 +102,33 @@ if (selected == '📖 Heart Disease Calculator'):
         
         if st.button('Heart Disease Test Result'):
 
-            cp_numeric = int(cp.split(":")[0])
+            if age is None or sex is None or cp is None or trestbps is None or chol is None or fbs is None or restecg is None or thalach is None or exang is None or oldpeak is None or slope is None or ca is None or thal is None:
+                st.warning("Please fill all the details", icon="⚠️") 
 
-            fbs_numeric = int(fbs.split(":")[0])
-
-            restecg_numeric = int(restecg.split(":")[0])
-
-            exang_numeric = int(exang.split(":")[0])
-
-            slope_numeric = int(slope.split(":")[0])
-
-            ca_numeric = int(ca.split(":")[0])
-
-            thal_numeric = int(thal.split(":")[0])
-
-            heart_prediction = heart_disease_model.predict([[int(age), int(sex), cp_numeric, int(trestbps), int(chol), fbs_numeric, restecg_numeric, int(thalach), exang_numeric, float(oldpeak), slope_numeric, ca_numeric, thal_numeric]])                         
-            
-            if (heart_prediction[0] == 1):
-                heart_diagnosis = 'The person is having heart disease'
             else:
-                heart_diagnosis = 'The person does not have any heart disease'
+                cp_numeric = int(cp.split(":")[0])
+
+                fbs_numeric = int(fbs.split(":")[0])
+
+                restecg_numeric = int(restecg.split(":")[0])
+
+                exang_numeric = int(exang.split(":")[0])
+
+                slope_numeric = int(slope.split(":")[0])
+
+                ca_numeric = int(ca.split(":")[0])
+
+                thal_numeric = int(thal.split(":")[0])
+
+                heart_prediction = heart_disease_model.predict([[int(age), int(sex), cp_numeric, int(trestbps), int(chol), fbs_numeric, restecg_numeric, int(thalach), exang_numeric, float(oldpeak), slope_numeric, ca_numeric, thal_numeric]])    
+
+                with st.spinner('Wait for it...'):
+                    time.sleep(2)                     
+            
+                if (heart_prediction[0] == 1):
+                    heart_diagnosis = 'The person is having heart disease'
+                else:
+                    heart_diagnosis = 'The person does not have any heart disease'
         
     st.success(heart_diagnosis)
 
@@ -221,6 +228,3 @@ if (selected == "📊 Visualization"):
     labels = ['Healthy', 'Unhealthy']    
     plt.pie(target_counts, labels=labels, autopct='%1.1f%%')
     st.pyplot(plt.gcf())
-
-    
-
